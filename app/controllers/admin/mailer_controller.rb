@@ -5,7 +5,7 @@ class Admin::MailerController < ApplicationController
   # display a mailer that can be used for creating custom emails to customers
   def index
     setup_recipients
-    @footer = "West Coast Distribution Support Services - support@realfoodbayarea.com"
+    @footer = ""
   end
 
   # choose a csa, 
