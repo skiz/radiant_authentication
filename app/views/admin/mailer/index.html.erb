@@ -1,0 +1,32 @@
+<h1>Create Customer Mail</h1>
+
+<div class='form-area'>
+
+<label>Recipients: </label><br /><br /><span style="font-size:0.8em"><%=h @recipients.map(&:email_address_with_name).join(', ')%></span>
+<br />
+<br />
+
+<% form_tag '/admin/mailer/fire' do %>
+
+<p class='title'>
+  <label for="product_title">Subject:</label>
+  <%= text_field_tag 'subject', params[:subject], :size => 100, :maxlength => 255, :class => 'textbox' %>
+</p>
+
+<p class='title'>
+  <label for='message'>Message</label>
+  <%= text_area_tag 'message', params[:message], :cols => 40, :rows => 20, :style => 'width: 100%', :class => 'textarea' %>
+</p>
+
+<p class='title'>
+  <label for='footer'>Footer</label>
+  <%= text_area_tag 'footer', @footer, :html => {:cols => 20, :rows => 2, :style => 'width: 100%' }%>
+</p>
+
+Support Services
+support@realfoodbayarea.com
+<Br/> <br />
+  <%= submit_tag "Send Email to #{@recipients.size} customers" %>
+<% end %>
+
+</div>

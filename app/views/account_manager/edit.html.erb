@@ -1,0 +1,24 @@
+<h1>My Account</h1>
+
+<p>You can update your account information here. When you are done click 'Save Changes'.</p>
+
+<p style="color:red"><%= flash[:notice] %></p>
+
+<% form_for :account, @account, :url => {:controller => 'account_manager', :action => 'update'} do %>
+	<p><label for="account_first_name">Login</label><br/>
+	<%= text_field :account, :login, :disabled => true %></p>
+
+	<p><label for="account_first_name">First Name</label><br/>
+	<%= text_field :account, :first_name %></p>
+
+	<p><label for="account_last_name">Last Name</label><br/>
+	<%= text_field :account, :last_name %></p>
+
+	<p><label for="account_email">Email Address</label><br/>
+	<%= text_field :account, :email %></p>
+
+	<p><label for="account_phone">Contact Phone</label><br/>
+	<%= text_field :account, :contact_phone %></p>
+
+	<p><%= submit_tag 'Save Changes' %></p>
+<% end -%>

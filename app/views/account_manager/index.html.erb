@@ -1,0 +1,53 @@
+<h1>My Account</h1>
+<p>Welcome back! To ensure the quality of our service, please keep this information up to date.</p>
+
+<% unless flash.blank? -%>
+<p style="color:red"><%= flash[:notice] %></p>
+<p style="color:red"><%= flash[:warning] %></p>
+<% end -%>
+
+<h3>Contact Information</h3>
+<p>
+<b>Name:</b> <%= h "#{@account.first_name} #{@account.last_name}"%><br />
+<b>Email:</b> <%= h @account.email %><br />
+<b>Phone:</b> <%= h @account.contact_phone || 'None Listed' %><br />
+<b>Password:</b> <%= link_to 'change password', change_password_path %><br /><br />
+<%= link_to 'edit my profile', edit_account_path%>
+</p>
+
+<h3>Recent Orders</h3>
+<% if current_user.orders.count > 0 %>
+<table class="bordered" border="0" cellspacing="0" cellpadding="5" style="width:99%;margin:0 auto">
+	<tr>
+		<th>Date</th>
+		<th>Order #</th>
+		<th>Delivery Location</th>
+		<th>Amount</th>
+		<th>Status</th>
+	</tr>
+	<% current_user.orders.recent.each do |order| -%>
+		<tr>
+			<td><%= order.created_at.to_date %></td>
+			<td><%= link_to order.order_number, order_path(order), :title => 'View Order Details' %></td>
+			<td><%= order.shipping_address.display_name%></td>
+			<td><%= order.line_items.total %></td>
+			<td><%= order.state.upcase %></td>
+		</tr>
+	<% end -%>
+</table>
+
+<% else -%>
+<p>You do not have any recent orders on file.</p>
+<% end -%>
+
+<h3>Delivery Options</h3>
+<p>By selecting a default delivery location here, it will be automatically selected when you make an order.</p>
+
+<% form_for :account, @account, :url => {:controller => 'account_manager', :action => 'update_default_csa'} do %>
+<p>Default Delivery Location: 
+	<% csa_options = options_from_collection_for_select(Address.available_for_delivery << Address.new(:line1 => 'Create New Location....'), :id, :display_name, current_user.default_csa_id)%>
+	<%= select_tag 'default_csa', csa_options %>
+	<%= submit_tag 'Set as Default'%>
+<% end -%><br />
+<%= link_to 'request a new delivery location', '/csa'%>
+</p>

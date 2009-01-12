@@ -1,0 +1,22 @@
+<h1>Select Mail Recipients</h1>
+
+<h2>Entire CSA(s)</h2>
+<p>Select from the list provided here to send everyone in the CSA the same email.</p>
+<% form_tag  do %>
+  <% CsaRequest.find_active.each do |csa| -%>
+    <p>
+      <%= check_box_tag "csa[]", csa.id %> <%= h(csa.address.display_name)%>
+    </p>
+  <% end -%>
+<hr />
+
+<h2>Individual Users (by last name)</h2>
+  <div style="overflow:scroll;max-height:220px">
+  <% Account.find(:all, :order => 'last_name ASC').each do |a| -%>
+    <%= check_box_tag "account[]", a.id %><%= h(a.display_name) %> (<%= a.email%>)<br />
+  <% end -%><br />
+  </div>
+  <br />
+  <%= submit_tag 'Email Selected Users' %>
+  <p class="tiny" style="font-size:0.7em">*Selecting individual users CSAs will not result in duplicate outgoing emails</p>
+<% end %>

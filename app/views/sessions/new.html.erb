@@ -1,0 +1,28 @@
+<h1>Please Log In</h1>
+
+<p>If you are a returning customer, you can login to view your order status, 
+and make your next order easier.</p>
+
+<p><%= link_to 'Forgot your login or password?', '/forgot_password' %></p>
+
+<div id="stylized" class="myform" style="margin-top:30px">
+
+  <% form_tag session_path do -%>
+
+    <label for="login">Username</label>
+    <%= text_field_tag 'login', @login %>
+
+    <div style="clear:both"></div>
+
+    <label for="password">Password</label>
+    <%= password_field_tag 'password', nil %>
+
+    <div style="clear:both"></div>
+
+    <label>&nbsp;</label><%= submit_tag 'Log in' %>
+
+  <% end -%>
+  
+</div>
+<br />
+
